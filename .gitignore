@@ -35,11 +35,14 @@ bower_components
 .lock-wscript
 
 # Compiled binary addons (https://nodejs.org/api/addons.html)
+/build
 build/Release
 
 # Dependency directories
 node_modules/
 jspm_packages/
+/.pnp
+.pnp.js
 
 # TypeScript v1 declaration files
 typings/
@@ -70,7 +73,14 @@ typings/
 
 # dotenv environment variables file
 .env
+.env.development.local
+.env.local
+.env.production.local
 .env.test
+.env.test.local
+
+# Misc
+.DS_Store
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache
