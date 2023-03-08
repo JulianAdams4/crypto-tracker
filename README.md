@@ -1,7 +1,6 @@
 # crypto-tracker
 Repositorio con el código fuente de la prueba técnica de Disruptive Studio.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
 
