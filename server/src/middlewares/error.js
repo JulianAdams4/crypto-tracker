@@ -1,4 +1,5 @@
 const httpStatus = require('http-status');
+const util = require('util');
 const config = require('../config/config');
 const ApiError = require('../utils/ApiError');
 
@@ -32,7 +33,7 @@ const errorHandler = (err, req, res, next) => {
   };
 
   if (config.env === 'development') {
-    console.error(err);
+    console.error(util.inspect(err));
   }
 
   res.status(statusCode).send(response);

@@ -1,4 +1,12 @@
-let server;
+const app = require('./app');
+const websockets = require('./services/socket.service');
+const config = require('./config/config');
+
+const server = app.listen(config.port, () => {
+  console.log(`Listening to port ${config.port}`);
+});
+
+websockets(server);
 
 const exitHandler = () => {
   if (server) {

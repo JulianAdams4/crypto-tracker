@@ -1,6 +1,5 @@
 const express = require('express');
 const cors = require('cors');
-// const helmet = require('helmet');
 const httpStatus = require('http-status');
 
 const config = require('./config/config');
@@ -16,15 +15,13 @@ if (config.env !== 'test') {
   app.use(morgan.errorHandler);
 }
 
-// app.use(helmet());
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(cors());
 app.options('*', cors());
 
-app.use('/v1', routes);
+app.use('/', routes);
 
 app.use((req, res, next) => {
   next(new ApiError(httpStatus.NOT_FOUND, 'Not found'));

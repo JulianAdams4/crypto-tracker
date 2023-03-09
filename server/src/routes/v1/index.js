@@ -1,23 +1,25 @@
 const express = require('express');
+const httpStatus = require('http-status');
 const userRoute = require('./user.route');
-const docsRoute = require('./docs.route');
+const cryptoRoute = require('./crypto.route');
 const config = require('../../config/config');
 
 const router = express.Router();
 
+router.get('/ping', (req, res) => res.status(httpStatus.OK).json('ping'));
+
 const defaultRoutes = [
   {
-    path: '/users',
+    path: '/user',
     route: userRoute,
+  },
+  {
+    path: '/crypto',
+    route: cryptoRoute,
   },
 ];
 
-const developmentRoutes = [
-  {
-    path: '/docs',
-    route: docsRoute,
-  },
-];
+const developmentRoutes = [];
 
 defaultRoutes.forEach((route) => {
   router.use(route.path, route.route);
