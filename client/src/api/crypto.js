@@ -1,3 +1,4 @@
+import mockedSerie from "assets/serie.json";
 import api, { buildAuthorization } from "./instance";
 
 export const getAutoSingIn = (appId) => {
@@ -12,9 +13,10 @@ export const getAssetTimeseries = (
   authData,
   { asset, start, end, interval }
 ) => {
-  return api.post(
-    `/crypto/${asset}/timeseries`,
-    { start, end, interval },
-    { headers: buildAuthorization(authData) }
-  );
+  return Promise.resolve(mockedSerie[asset]);
+  // return api.post(
+  //   `/crypto/${asset}/timeseries`,
+  //   { start, end, interval },
+  //   { headers: buildAuthorization(authData) }
+  // );
 };

@@ -2,8 +2,14 @@ import { useCallback, useEffect, useState } from "react";
 import useWebSocket from "react-use-websocket";
 import API from "api";
 import Storage from "lib/storage";
-import { APP_ID, WEBSOCKET_URL } from "utils/constants";
+import {
+  APP_ID,
+  REQUIRED_ASSETS,
+  TREND_DAYS,
+  WEBSOCKET_URL,
+} from "utils/constants";
 import AssetsTable from "components/AssetsTable";
+import { getFormattedDate, getPreviousDate } from "utils/formatter";
 
 let searchDelayTimer = null;
 
@@ -11,6 +17,7 @@ function App() {
   const [authed, setAuthed] = useState(null);
   const [assetsList, setAssetsList] = useState(null);
   const [filteredList, setFilteredList] = useState(null);
+  const [assetsSeries, setAssetsSeries] = useState({});
   const [search, setSearch] = useState("");
 
   const { lastJsonMessage } = useWebSocket(`${WEBSOCKET_URL}?appId=${APP_ID}`);
@@ -30,7 +37,27 @@ function App() {
 
   const loadAssets = useCallback(async () => {
     const assetsData = await API.Crypto.getTopAssets(authed);
+    console.log('Loaded assetsData: ', assetsData)
     setAssetsList(assetsData.data);
+  }, [authed]);
+
+  const loadSeries = useCallback(async () => {
+    const assetsTimeseries = await Promise.all(
+      Object.values(REQUIRED_ASSETS).map((slug) =>
+        API.Crypto.getAssetTimeseries(authed, {
+          start: getFormattedDate(getPreviousDate(TREND_DAYS + 1)),
+          end: getFormattedDate(getPreviousDate(1)),
+          interval: "1d",
+          asset: slug,
+        })
+      )
+    );
+    const formattedSeries = {};
+    for (const timeserie of assetsTimeseries) {
+      const formattedSingle = timeserie.data.values.map((pair) => pair[1]);
+      formattedSeries[timeserie.data.slug] = formattedSingle;
+    }
+    setAssetsSeries(formattedSeries);
   }, [authed]);
 
   const submitSearch = useCallback(
@@ -68,13 +95,16 @@ function App() {
   useEffect(() => {
     if (authed && assetsList === null) {
       loadAssets();
+      loadSeries();
     }
-  }, [authed, assetsList, loadAssets]);
+  }, [authed, assetsList, loadAssets, loadSeries]);
 
   useEffect(() => {
     checkAuth();
   }, [checkAuth]);
 
+  console.log('filteredList: ', filteredList)
+  console.log('assetsList: ', assetsList)
   return (
     <div className="h-full p-[2%] bg-gray1 overflow-scroll">
       <h1 className="mt-4 mb-6 px-4">Crypto Tracker</h1>
@@ -82,6 +112,7 @@ function App() {
         data={filteredList || assetsList || []}
         search={search}
         setSearch={setSearch}
+        series={assetsSeries}
       />
     </div>
   );

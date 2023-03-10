@@ -1,0 +1,68 @@
+[
+  {
+    "id": "1e31218a-e44e-4285-820c-8282ee222035",
+    "name": "Bitcoin",
+    "slug": "bitcoin",
+    "symbol": "BTC",
+    "metrics": {
+      "market_data": {
+        "price_usd": 19633.07,
+        "percent_change_usd_last_1_hour": -1.272929872,
+        "percent_change_usd_last_24_hours": -9.2321280,
+        "real_volume_last_24_hours": 15120003405089.121323
+      },
+      "marketcap": {
+        "current_marketcap_usd": 380000000000000.123123
+      },
+      "roi_data": {
+        "percent_change_last_1_week": -12.070012,
+        "percent_change_last_1_month": -14.390011,
+        "percent_change_year_to_date": 18.3511111
+      }
+    }
+  },
+  {
+    "id": "21c795f5-1bfd-40c3-858e-e9d7e820c6d0",
+    "name": "Ethereum",
+    "slug": "ethereum",
+    "symbol": "ETH",
+    "metrics": {
+      "market_data": {
+        "price_usd": 1385.24,
+        "percent_change_usd_last_1_hour": -1.17292172,
+        "percent_change_usd_last_24_hours": -9.8221280,
+        "real_volume_last_24_hours": 3570013405089.121323
+      },
+      "marketcap": {
+        "current_marketcap_usd": 169000000000000.0001
+      },
+      "roi_data": {
+        "percent_change_last_1_week": -12.0318762,
+        "percent_change_last_1_month": -16.34109212,
+        "percent_change_year_to_date": 15.08102971
+      }
+    }
+  },
+  {
+    "id": "362f0140-ecdd-4205-b8a0-36f0fd5d8167",
+    "name": "Cardano",
+    "slug": "cardano",
+    "symbol": "ADA",
+    "metrics": {
+      "market_data": {
+        "price_usd": 0.3000123,
+        "percent_change_usd_last_1_hour": -0.1429272,
+        "percent_change_usd_last_24_hours": -4.6801280,
+        "real_volume_last_24_hours": 183000000.00133
+      },
+      "marketcap": {
+        "current_marketcap_usd": 10470001201100.121230
+      },
+      "roi_data": {
+        "percent_change_last_1_week": -12.49319839,
+        "percent_change_last_1_month": -23.84123821,
+        "percent_change_year_to_date": 20.16092302
+      }
+    }
+  }
+]

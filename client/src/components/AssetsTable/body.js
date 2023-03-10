@@ -1,16 +1,10 @@
-import React, { memo, useCallback, useEffect, useState } from "react";
+import React, { memo } from "react";
 import { Sparklines, SparklinesLine } from "react-sparklines";
-import API from "api";
-import Storage from "lib/storage";
 import { IMAGES_URL } from "utils/constants";
-import {
-  coloredPercentage,
-  formatMoney,
-  formatPercentage,
-  getFormattedDate,
-} from "./helpers";
+import { coloredPercentage } from "./helpers";
+import { formatMoney, formatPercentage } from "utils/formatter";
 
-const TableBody = ({ items = [] }) => {
+const TableBody = ({ items = [], series = {} }) => {
   return (
     <tbody>
       {items.map((asset, index) => {
@@ -58,7 +52,7 @@ const TableBody = ({ items = [] }) => {
               align="right font-bold"
             />
 
-            <CellChart id={asset.id} slug={asset.slug} />
+            <CellChart id={asset.id} data={series[asset.slug]} />
 
             <TableCell
               type="money"
@@ -135,33 +129,10 @@ const TableCell = memo(({ type, value, align = "right" }) => {
   );
 });
 
-const CellChart = memo(({ id = "", slug = "" }) => {
-  const [assetSeries, setAssetSeries] = useState([]);
-
-  const loadSeries = useCallback(async () => {
-    const today = new Date();
-    const authData = Storage.getItem("authData");
-    const assetsData = await API.Crypto.getAssetTimeseries(authData, {
-      asset: slug,
-      end: getFormattedDate(today),
-      start: getFormattedDate(
-        new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7)
-      ),
-      interval: '1d'
-    });
-    const formattedSerie = assetsData.data.values.map((pair) => pair[1]);
-    setAssetSeries(formattedSerie);
-  }, [slug]);
-
-  useEffect(() => {
-    if (slug && id) {
-      loadSeries();
-    }
-  }, [slug, id, loadSeries]);
-
+const CellChart = memo(({ id = "", data = [] }) => {
   return (
-    <td className="text-sm text-right px-6 asset-chart-col">
-      <Sparklines data={assetSeries} width={200} height={50}>
+    <td key={`chart-${id}`} className="text-sm text-right px-6 asset-chart-col">
+      <Sparklines data={data} width={200} height={50}>
         <SparklinesLine color="#0A59A4" style={{ fill: "none" }} />
       </Sparklines>
     </td>
