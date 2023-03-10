@@ -1,70 +1,109 @@
 # crypto-tracker
 Repositorio con el código fuente de la prueba técnica de Disruptive Studio.
 
+## Estructura
+El presente proyecto consta de 2 carpetas:
+- client
+- server
 
-## Available Scripts
+La primera de estas contiene el código fuente de una aplicación inicializada con Create-React-App mientras que la segunda contiene el código fuente de una aplicación hecha con Node.js la cual se integra con el API de Messari.io para obtener información sobre los valores y equivalencias de varias criptomonedas.
 
-In the project directory, you can run:
+---
+## Variables de ambiente (client)
+Estas variables deben constar en el archivo `.env` dentro de la carpeta `client`:
+```bash
+## URL hacia el server y para obtener imágenes de las criptomonedas
+REACT_APP_API_URL=http://XXXXXXXX:XXXX
+REACT_APP_API_IMAGES_URL=https://XXXXXX-XXXXXX.XXXXXXX.XX/XXXXXX
+REACT_APP_WEBSOCKET_URL=ws://XXXXXXXXX:XXXX/XXXXXXXXXX
 
-### `npm start`
+# ID encriptado que el server verifica si es válido
+REACT_APP_APP_ID=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Scripts (client)
+En el directorio `client`, se encuentran los siguientes scripts:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+```bash
+# Ejecuta la aplicación cliente en modo Desarrollo.\
+# Abre la direcciíon [http://localhost:3000](http://localhost:3000) en una pestaña del navegador predefinido, la cual se actualizará si se realizan cambios en el código fuente. También mostrará si hay algún error durante la ejecución del proyecto.
+# Más información en la sección [deployment](https://facebook.github.io/create-react-app/docs/deployment).
+npm start
 
-### `npm test`
+# Ejecuta todas las pruebas
+npm run test
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+# Prepara la aplicación para Producción en la carpeta `build`.\
+# Si el proceso se realiza correctamente, React optimizará el build para un mejor rendimiento.
+# El build es minificado y los nombres de archivos incluirán los hashes.\
+# La aplicación está lista para deployar!
+npm run build
+```
 
-### `npm run build`
+---
+## Variables de ambiente (server)
+Estas variables deben constar en el archivo `.env` dentro de la carpeta `server`:
+```bash
+# Port number
+PORT=5000
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+# Messari
+MESSARI_API_KEY=XXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+MESSARI_API_URL=https://XXXX.XXXXXXX.XX/XXX
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+# Cryptr
+CRYPTR_SECRET=XXXXXXXXXXXXXXXXX
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+# JWT
+JWT_SECRET=XXXXXXXXXXXXXXX
+```
 
-### `npm run eject`
+## Scripts (server)
+En el directorio `server`, se encuentran los siguientes scripts:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```bash
+# Para ejecutar en modo Desarrollo:
+npm run dev
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+# Para el modo Producción:
+npm start
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+# Ejecuta todas las pruebas
+npm run test
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+# Ejecuta todas las pruebas en modo observación
+npm run test:watch
 
-## Learn More
+# Ejecuta las pruebas y verifica la cobertura
+npm run coverage
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+# Arregla errores de formateo
+npm run lint:fix
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Validación (server)
+Los esquemas para validar están en el directorio `src/validations` y son usados por los routes el cual llama a la función middleware `validate`.
 
-### Code Splitting
+```javascript
+const express = require('express');
+const controller = require('../controllers/XXXX');
+const validate = require('../middlewares/validate');
+const validation = require('../validations/XXXX.validation');
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+const router = express.Router();
 
-### Analyzing the Bundle Size
+router.post('/my-route', validate(validation.method1), controller.routeHandler);
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## Linting
 
-### Making a Progressive Web App
+El Linter usa [ESLint](https://eslint.org/) y [Prettier](https://prettier.io).
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Se usan las reglas de [Airbnb JavaScript style guide](https://github.com/airbnb/javascript/tree/master/packages/eslint-config-airbnb-base) con ciertas modificaciones.
 
-### Advanced Configuration
+Para modificar la configuration de ESLint, actualice el archivo `.eslintrc.json`.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+Para evitar que un archivo o carpeta sea formateado, agreguelo en `.eslintignore`.
 
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Autor
+Julián A
