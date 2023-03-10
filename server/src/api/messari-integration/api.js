@@ -36,6 +36,7 @@ class ApiConnection {
       }
       return restResponse;
     } catch (error) {
+      console.log('Error: ', error);
       throw new ApiException(500, 0, error);
     }
   }

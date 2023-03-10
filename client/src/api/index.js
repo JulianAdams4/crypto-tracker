@@ -1,7 +1,7 @@
-import Currency from "./auth";
+import * as Crypto from "./crypto";
 
 const endpoints = {
-  Currency,
+  Crypto,
 };
 
 export default endpoints;

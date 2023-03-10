@@ -1,8 +1,8 @@
 import axios from "axios";
-import { REACT_APP_API_URL } from "utils/constants";
+import { API_URL } from "utils/constants";
 
 const api = axios.create({
-  baseURL: REACT_APP_API_URL,
+  baseURL: API_URL,
   headers: {
     "Content-type": "application/json",
   },
@@ -14,8 +14,12 @@ api.interceptors.response.use(
   },
   (error) => {
     console.log(error);
-    return error.response;
+    return null;
   }
 );
+
+export const buildAuthorization = (token) => {
+  return { Authorization: `Bearer ${token}` };
+};
 
 export default api;
